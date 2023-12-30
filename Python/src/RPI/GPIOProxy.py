@@ -51,6 +51,11 @@ class GPIOProxy():
     def __init__(self, debug = False):
         self.debug = debug
 
+        # TODO: Rethink this.
+        if (_rpiLoaded):
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BCM)
+
     def setmode(self, setMode):
         if (self.debug):
             print('{}: {}'.format(GPIOProxy.setmode.__qualname__, setMode))
