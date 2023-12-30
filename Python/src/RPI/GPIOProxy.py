@@ -1,3 +1,4 @@
+# TODO: Comment every function
 import platform
 
 _rpiLoaded = True

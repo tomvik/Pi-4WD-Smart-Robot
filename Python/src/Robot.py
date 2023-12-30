@@ -1,10 +1,11 @@
+#TODO: Comment every function
 from time import sleep
 
 from Motor import Motor
 from Pins import *
 
 KFREQUENCY = 2000
-KBASEPWM = 1
+KBASEPWM = 50
 
 class Robot():
 
@@ -25,6 +26,14 @@ class Robot():
         self.leftMotor.moveBackward(pwm)
         self.rightMotor.moveBackward(pwm)
 
+    def rotateLeft(self, pwm):
+        self.leftMotor.moveBackward(pwm)
+        self.rightMotor.moveForward(pwm)
+
+    def rotateRight(self, pwm):
+        self.leftMotor.moveForward(pwm)
+        self.rightMotor.moveBackward(pwm)
+
     def stop(self):
         self.leftMotor.stopMotor()
         self.rightMotor.stopMotor()
@@ -32,9 +41,17 @@ class Robot():
 if __name__ == '__main__':
     robot = Robot(KFREQUENCY, True)
     robot.forward(KBASEPWM)
-    sleep(2)
+    sleep(1.5)
     robot.stop()
-    sleep(2)
+    sleep(0.5)
     robot.backward(KBASEPWM)
-    sleep(2)
+    sleep(1.5)
+    robot.stop()
+    sleep(0.5)
+    robot.rotateLeft(KBASEPWM)
+    sleep(1.5)
+    robot.stop()
+    sleep(0.5)
+    robot.rotateRight(KBASEPWM)
+    sleep(1.5)
     robot.stop()
