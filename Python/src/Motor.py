@@ -1,7 +1,7 @@
 from time import sleep
 
-from RPI.gpio_proxy import *
-GPIO = GPIOProxy()
+from RPI.GPIOProxy import *
+GPIO = GPIOProxy(True)
 
 KPIN1 = 20
 KPIN2 = 21
