@@ -7,7 +7,7 @@ KPIN1 = 20
 KPIN2 = 21
 KPWM1 = 16
 KFREQUENCY = 2000
-KBASEPWM = 10
+KBASEPWM = 1
 
 class Motor():
     """Class to instantiate a motor and control its movement.
@@ -62,8 +62,8 @@ class Motor():
             GPIO.output(KPIN1, GPIO.HIGH)
             GPIO.output(KPIN2, GPIO.LOW)
         else:
-            GPIO.output(KPIN1, GPIO.HIGH)
-            GPIO.output(KPIN2, GPIO.LOW)
+            GPIO.output(KPIN1, GPIO.LOW)
+            GPIO.output(KPIN2, GPIO.HIGH)
         self.pwm.ChangeDutyCycle(pwm)
 
     def moveForward(self, pwm: int):
@@ -93,9 +93,9 @@ if __name__ == '__main__':
     leftMotor = Motor(KPIN1, KPIN2, KPWM1, KFREQUENCY)
 
     leftMotor.moveForward(KBASEPWM)
-    sleep(2)
+    sleep(0.5)
     leftMotor.stopMotor()
-    sleep(2)
+    sleep(0.5)
     leftMotor.moveBackward(KBASEPWM)
-    sleep(2)
+    sleep(0.5)
     leftMotor.stopMotor()
