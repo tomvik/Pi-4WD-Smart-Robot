@@ -1,18 +1,11 @@
-from time import sleep
-
 from RPI.GPIOProxy import *
 GPIO = GPIOProxy(True)
-
-KPIN1 = 20
-KPIN2 = 21
-KPWM1 = 16
-KFREQUENCY = 2000
-KBASEPWM = 1
 
 class Motor():
     """Class to instantiate a motor and control its movement.
     """
-    def __init__(self, firstPin: int, secondPin: int, pwmPin: int, pwmFrequency: int):
+
+    def __init__(self, firstPin: int, secondPin: int, pwmPin: int, pwmFrequency: int, debug: bool = False):
         """Initializes the motor instance.
 
         Parameters
@@ -25,11 +18,15 @@ class Motor():
             Pwm Pin of the motor.
         pwmFrequency : int
             pwm frequency of the motor.
+        debug: bool
+            Whether it will print debugging information.
         """
+        self.name = '{}-{}-{}'.format(firstPin, secondPin, pwmPin)
         self.firstPin = firstPin
         self.secondPin = secondPin
         self.pwmPin = pwmPin
         self.pwmFrequency = pwmFrequency
+        self.debug = debug
         self.initializePins()
 
     def initializePins(self):
@@ -44,8 +41,11 @@ class Motor():
     def stopMotor(self):
         """Stops the motor.
         """
-        GPIO.output(KPIN1, GPIO.LOW)
-        GPIO.output(KPIN2, GPIO.LOW)
+        if (self.debug):
+            print('{}-{}'.format(self.name, self.stopMotor.__qualname__))
+
+        GPIO.output(self.firstPin, GPIO.LOW)
+        GPIO.output(self.secondPin, GPIO.LOW)
         self.pwm.ChangeDutyCycle(0)
 
     def moveMotor(self, forward: bool, pwm: int):
@@ -58,12 +58,15 @@ class Motor():
         pwm : int
             Speed at which to move the motor.
         """
+        if (self.debug):
+            print('{}-{}: {}, {}'.format(self.name, self.moveMotor.__qualname__, forward, pwm))
+
         if forward:
-            GPIO.output(KPIN1, GPIO.HIGH)
-            GPIO.output(KPIN2, GPIO.LOW)
+            GPIO.output(self.firstPin, GPIO.HIGH)
+            GPIO.output(self.secondPin, GPIO.LOW)
         else:
-            GPIO.output(KPIN1, GPIO.LOW)
-            GPIO.output(KPIN2, GPIO.HIGH)
+            GPIO.output(self.firstPin, GPIO.LOW)
+            GPIO.output(self.secondPin, GPIO.HIGH)
         self.pwm.ChangeDutyCycle(pwm)
 
     def moveForward(self, pwm: int):
@@ -74,6 +77,9 @@ class Motor():
         pwm : int
             Speed at which to move the motor.
         """
+        if (self.debug):
+            print('{}-{}: {}'.format(self.name, self.moveForward.__qualname__, pwm))
+
         self.moveMotor(True, pwm)
 
     def moveBackward(self, pwm: int):
@@ -84,18 +90,7 @@ class Motor():
         pwm : int
             Speed at which to move the motor.
         """
+        if (self.debug):
+            print('{}-{}: {}'.format(self.name, self.moveBackward.__qualname__, pwm))
+
         self.moveMotor(False, pwm)
-
-if __name__ == '__main__':
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-
-    leftMotor = Motor(KPIN1, KPIN2, KPWM1, KFREQUENCY)
-
-    leftMotor.moveForward(KBASEPWM)
-    sleep(0.5)
-    leftMotor.stopMotor()
-    sleep(0.5)
-    leftMotor.moveBackward(KBASEPWM)
-    sleep(0.5)
-    leftMotor.stopMotor()
