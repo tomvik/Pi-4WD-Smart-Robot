@@ -1,11 +1,12 @@
-from RPi.gpio_proxy import *
+#from RPI.gpio_proxy import *
+import RPi.GPIO as GPIO
 from time import sleep
 
 KPIN1 = 20
 KPIN2 = 21
 KPWM1 = 16
 
-GPIO = GPIOProxy()
+#GPIO = GPIOProxy()
 
 GPIO.setwarnings(False)
 
@@ -28,4 +29,8 @@ pwm_ENA.ChangeDutyCycle(0)
 sleep(2)
 GPIO.output(KPIN1, GPIO.LOW)
 GPIO.output(KPIN2, GPIO.HIGH)
+pwm_ENA.ChangeDutyCycle(50)
+sleep(2)
+GPIO.output(KPIN1, GPIO.LOW)
+GPIO.output(KPIN2, GPIO.LOW)
 pwm_ENA.ChangeDutyCycle(0)

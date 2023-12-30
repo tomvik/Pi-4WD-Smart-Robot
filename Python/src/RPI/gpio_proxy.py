@@ -36,11 +36,17 @@ class GPIOProxy():
         else:
             pass
 
-    def setwarnings(*args, **kwargs):
+    def setwarnings(*args):
         if _rpiLoaded:
-            GPIO.setwarnings(*args, **kwargs)
+            GPIO.setwarnings(args[1])
         else:
             pass
+
+    #def setwarnings(*args, **kwargs):
+    #    if _rpiLoaded:
+    #        GPIO.setwarnings(*args, **kwargs)
+    #    else:
+    #        pass
 
     def setup(*args, **kwargs):
         if _rpiLoaded:
