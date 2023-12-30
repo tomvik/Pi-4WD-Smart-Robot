@@ -2,8 +2,10 @@ _rpiLoaded = True
 
 try:
     import RPi.GPIO as GPIO
+    print('Loaded RPi.GPIO')
 except:
     _rpiLoaded = False
+    print('Failed to load RPi.GPIO')
 
 class PWMProxy():
     def start(*args, **kwargs):
