@@ -1,12 +1,18 @@
+import platform
+
+# TODO: Transfer this to a common file, or pass it as a parameter to GPIOProxy
+DEBUG = False
+
 _rpiLoaded = True
 
-# TODO: Check if system is not Raspberry pi
-try:
+# TODO: Maybe add this in constructor of GPIOProxy?
+if ((platform.system() == 'Linux') and ('rpi' in platform.release())):
+    # TODO: Maybe exit instead of crashing?
     import RPi.GPIO as GPIO
-    print('Loaded RPi.GPIO')
-except:
+    print('Loaded RPi.GPIO successfully!')
+else:
     _rpiLoaded = False
-    print('Failed to load RPi.GPIO')
+    print('This platform does not support RPi.GPIO... Will mock it instead.')
 
 class PWMProxy():
     pwmName = ''
@@ -14,10 +20,12 @@ class PWMProxy():
         self.pwmName = '{}_{}'.format(channel, frequency)
 
     def start(self, dutycycle):
-        print('{}-{}: {}'.format(self.pwmName, PWMProxy.start.__qualname__, dutycycle))
+        if (DEBUG):
+            print('{}-{}: {}'.format(self.pwmName, PWMProxy.start.__qualname__, dutycycle))
 
     def ChangeDutyCycle(self, dutycycle):
-        print('{}-{}: {}'.format(self.pwmName, PWMProxy.ChangeDutyCycle.__qualname__, dutycycle))
+        if (DEBUG):
+            print('{}-{}: {}'.format(self.pwmName, PWMProxy.ChangeDutyCycle.__qualname__, dutycycle))
 
 class GPIOProxy():
     BCM = GPIO.BCM if _rpiLoaded else 'BCM'
@@ -37,38 +45,39 @@ class GPIOProxy():
     PUD_DOWN = GPIO.PUD_DOWN if _rpiLoaded else 'PUD_DOWN'
 
     def setmode(self, setMode):
-        if _rpiLoaded:
-            GPIO.setmode(setMode)
-        else:
+        if (DEBUG):
             print('{}: {}'.format(GPIOProxy.setmode.__qualname__, setMode))
+        if (_rpiLoaded):
+            GPIO.setmode(setMode)
 
     def setwarnings(self, state):
-        if _rpiLoaded:
-            GPIO.setwarnings(state)
-        else:
+        if (DEBUG):
             print('{}: {}'.format(GPIOProxy.setwarnings.__qualname__, state))
+        if (_rpiLoaded):
+            GPIO.setwarnings(state)
 
     def setup(self, channel, direction, pull_up_down = PUD_OFF, initial = None):
-        if _rpiLoaded:
-            GPIO.setup(channel, direction, pull_up_down = pull_up_down, initial = initial)
-        else:
+        if (DEBUG):
             print('{}: {}, {}, {}, {}'.format(GPIOProxy.setup.__qualname__, channel, direction, pull_up_down, initial))
+        if (_rpiLoaded):
+            GPIO.setup(channel, direction, pull_up_down = pull_up_down, initial = initial)
 
     def output(self, channel, value):
-        if _rpiLoaded:
-            GPIO.output(channel, value)
-        else:
+        if (DEBUG):
             print('{}: {}, {}'.format(GPIOProxy.output.__qualname__, channel, value))
+        if (_rpiLoaded):
+            GPIO.output(channel, value)
 
     def add_event_detect(self, gpio, edge, callback = None, bouncetime = None):
-        if _rpiLoaded:
-            GPIO.add_event_detect(gpio, edge, callback = callback, bouncetime = bouncetime)
-        else:
+        if (DEBUG):
             print('{}: {}, {}, {}, {}'.format(GPIOProxy.add_event_detect.__qualname__, gpio, edge, callback, bouncetime))
+        if (_rpiLoaded):
+            GPIO.add_event_detect(gpio, edge, callback = callback, bouncetime = bouncetime)
 
     def PWM(self, channel, frequency):
-        if _rpiLoaded:
+        if (DEBUG):
+            print('{}: {}, {}'.format(GPIOProxy.PWM.__qualname__, channel, frequency))
+        if (_rpiLoaded):
             return GPIO.PWM(channel, frequency)
         else:
-            print('{}: {}, {}'.format(GPIOProxy.PWM.__qualname__, channel, frequency))
             return PWMProxy(channel, frequency)
