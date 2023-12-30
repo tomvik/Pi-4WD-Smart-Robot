@@ -1,12 +1,12 @@
-#from RPI.gpio_proxy import *
-import RPi.GPIO as GPIO
 from time import sleep
+
+from RPI.gpio_proxy import *
+GPIO = GPIOProxy()
+# import RPi.GPIO as GPIO
 
 KPIN1 = 20
 KPIN2 = 21
 KPWM1 = 16
-
-#GPIO = GPIOProxy()
 
 GPIO.setwarnings(False)
 
