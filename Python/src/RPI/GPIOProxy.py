@@ -1,4 +1,5 @@
 # TODO: [GPIOProxy.py] Comment every function in.
+# TODO: Rewrite all to-do comments.
 import platform
 
 _rpiLoaded = True
