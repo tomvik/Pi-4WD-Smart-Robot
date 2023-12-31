@@ -1,5 +1,5 @@
 from RPI.GPIOProxy import *
-GPIO = GPIOProxy(True)
+GPIO = GPIOProxy()
 
 class Motor():
     """Class to instantiate a motor and control its movement.
@@ -21,6 +21,9 @@ class Motor():
         debug: bool
             Whether it will print debugging information.
         """
+        # The debugging has to be set here to be modular.
+        # Also, if it's overwritten, it will apply the latest one.
+        GPIO.debug = debug
         self.name = '{}-{}-{}'.format(firstPin, secondPin, pwmPin)
         self.firstPin = firstPin
         self.secondPin = secondPin

@@ -3,9 +3,7 @@ import platform
 
 _rpiLoaded = True
 
-# TODO: [GPIOProxy] Maybe move import logic to inside class.
 if ((platform.system() == 'Linux') and ('rpi' in platform.release())):
-    # TODO: [GPIOProxy] Maybe exit instead of crashing when import fails.
     import RPi.GPIO as GPIO # pyright: ignore[reportMissingImports]
     print('Loaded RPi.GPIO successfully!')
 else:
@@ -32,7 +30,6 @@ class PWMProxy():
         if (self.pwm is not None):
             self.pwm.ChangeDutyCycle(dutycycle)
 
-# TODO: [GPIOProxy] Make GPIOProxy class a singleton.
 class GPIOProxy():
     BCM = GPIO.BCM if _rpiLoaded else 'BCM'
 
@@ -50,10 +47,14 @@ class GPIOProxy():
     PUD_UP = GPIO.PUD_UP if _rpiLoaded else 'PUD_UP'
     PUD_DOWN = GPIO.PUD_DOWN if _rpiLoaded else 'PUD_DOWN'
 
+    def __new__(cls, debug = False):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(GPIOProxy, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self, debug = False):
         self.debug = debug
 
-        # TODO: Rethink this.
         if (_rpiLoaded):
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
