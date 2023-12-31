@@ -26,7 +26,7 @@ class Fan():
     def initializePin(self):
         """Initializes the GPIO pin.
         """
-        GPIO.setup(self.pin, GPIO.OUT, initial = GPIO.LOW)
+        GPIO.setup(self.pin, GPIO.OUT, initial = GPIO.HIGH)
 
     def stopFan(self):
         """Stops the fan's motor.
@@ -34,7 +34,7 @@ class Fan():
         if (self.debug):
             print('{}-{}'.format(self.name, self.stopFan.__qualname__))
 
-        GPIO.output(self.pin, GPIO.LOW)
+        GPIO.output(self.pin, GPIO.HIGH)
 
     def startFan(self):
         """Starts the fan's motor.
@@ -42,4 +42,4 @@ class Fan():
         if (self.debug):
             print('{}-{}'.format(self.name, self.startFan.__qualname__))
 
-        GPIO.output(self.pin, GPIO.HIGH)
+        GPIO.output(self.pin, GPIO.LOW)
