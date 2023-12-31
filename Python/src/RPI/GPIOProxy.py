@@ -10,6 +10,7 @@ else:
     _rpiLoaded = False
     print('This platform does not support RPi.GPIO... Will mock it instead.')
 
+# TODO: Change print order, so the function name goes first.
 class PWMProxy():
     def __init__(self, channel, frequency, debug=False):
         self.pwm = GPIO.PWM(channel, frequency) if _rpiLoaded else None
