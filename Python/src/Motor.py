@@ -34,7 +34,7 @@ class Motor():
         """
         GPIO.setup(self.firstPin, GPIO.OUT, initial = GPIO.LOW)
         GPIO.setup(self.secondPin, GPIO.OUT, initial = GPIO.LOW)
-        # TODO: Check if GPIO.LOW works as well
+        # TODO: [Motor.py] Check if GPIO.LOW works as well.
         GPIO.setup(self.pwmPin, GPIO.OUT, initial = GPIO.HIGH)
         self.pwm = GPIO.PWM(self.pwmPin, self.pwmFrequency)
 

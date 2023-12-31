@@ -1,11 +1,11 @@
-#TODO: Comment every function
+# TODO: [Robot.py] Comment every function.
 from time import sleep
 
 from Motor import Motor
 from Pins import *
 
 KFREQUENCY = 2000
-KBASEPWM = 50
+KBASEPWM = 25
 
 class Robot():
 
@@ -40,6 +40,7 @@ class Robot():
 
 if __name__ == '__main__':
     robot = Robot(KFREQUENCY, True)
+    sleep(10)
     robot.forward(KBASEPWM)
     sleep(1.5)
     robot.stop()
