@@ -1,4 +1,4 @@
-# TODO: [Robot.py] Comment every function.
+# TODO: [Robot] Comment every function.
 from time import sleep
 
 from Motor import Motor
